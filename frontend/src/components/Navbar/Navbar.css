@@ -1,0 +1,120 @@
+nav.normal {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    transition: all 1s;
+    /* border-bottom: 1px solid rgb(243, 10, 10); */
+  }
+  
+  nav.active {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #302c2c;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    color: white;
+    transition: all 1s;
+  }
+  
+  nav.other {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #302c2c;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    color: white;
+  }
+  
+  nav img {
+    height: 70px;
+    width: 170px;
+    margin: 5px;
+  }
+  
+  .nav-links ul {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links ul li {
+    list-style-type: none;
+    margin-inline: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .nav-links ul li a {
+    text-decoration: none;
+    color: whitesmoke;
+    text-shadow: 0.3px 0.3px 1.5px whitesmoke;
+  }
+  
+  .nav-links ul li.nav-link a:hover {
+    color: lightgreen;
+  }
+  
+  .nav-links button {
+    background-color: transparent;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .drawer-btn{
+    background-color: transparent;
+    border: 1px solid whitesmoke;
+    color: whitesmoke;
+    font-size: 1.1rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+  }
+  
+  .nav-links button:hover {
+    color: rgb(113, 238, 113);
+    border: 1px solid rgb(113, 238, 113);
+  }
+  
+  .nav-links ul li.nav-link a:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0px;
+    height: 2px;
+    background: rgb(113, 238, 113);
+    transition: all 0.45s;
+  }
+  
+  .nav-links ul li.nav-link a:hover:after {
+    width: 100%;
+    left: 0;
+  }
+  
+  .hambtn{
+    font-size: 2rem;
+    margin: 0 10px 5px 0;
+    cursor: pointer;
+    color: #ffede7;
+  }

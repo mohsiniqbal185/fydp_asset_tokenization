@@ -1,0 +1,19 @@
+.back-to-home{
+    text-align:start;
+    margin:30px;
+    width: fit-content;
+  }
+  
+  .back-to-home a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #ffede7;
+    background-color: #302c2c;
+    padding: 6px 10px;
+    border-radius: 20px;
+  }
+  
+  .back-to-home a:hover{
+    opacity: 0.9;
+  }

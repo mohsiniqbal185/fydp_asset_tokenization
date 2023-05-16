@@ -1,0 +1,170 @@
+.single-property{
+    background-image: linear-gradient( 92.7deg,  rgba(245,212,212,1) 8.5%, rgba(252,251,224,1) 90.2% );
+  }
+  
+  .property-image{
+    width: 100%;
+    height: 90vh;
+    position: relative;
+  }
+  
+  .property-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: 100vw 100vh;
+    filter: brightness(60%);
+  }
+  
+  .tagname{
+    position: absolute;
+    /* top: 30%;
+    left: 20%; */
+    top: 0;
+    height: 90vh;
+    width:100%;
+    color: #ffede7;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tagname div{
+    background-color: #302c2cce;
+    padding: 0 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+  }
+  
+  .tagname h2{
+    line-height: 2rem;
+    font-weight: 600;
+    color: rgb(233, 150, 81);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .single-property-content{
+    position: relative;
+    transform: translateY(-100px);
+    width: 85%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+  }
+  
+  .property-info{
+    background-color: #302c2c;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .property-info div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .property-info .info {
+    display: flex;
+    justify-content: center;
+    transition: 0.5s;
+    padding: 10px 0;
+    width: 25%;
+  }
+  
+  .property-info .info:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+    background-color: #292626;
+  }
+  
+  .property-info .info:not(:last-child){
+    border-right: 1px solid #3b3636;
+  }
+  
+  .property-info div h5{
+    color: rgb(233, 150, 81);
+    display: flex;
+    align-items: center;
+  }
+  
+  .property-info div h6{
+    color: rgb(233, 150, 81);
+  }
+  
+  .property-info div h5,.property-info div h6{
+    margin: 20px auto;
+  }
+  
+  .property-desc{
+    margin-top: 40px;
+  }
+  
+  .property-desc h2{
+    display: flex;
+    align-items: center;
+  }
+  
+  .description p{
+    font-size: 1.1rem;
+    line-height: 2rem;
+    font-weight: 500;
+    color: #7a6d6d;
+  }
+  
+  .property-location{
+    margin-top: 60px;
+  }
+  
+  .property-location h2{
+    display: flex;
+    align-items: center;
+  }
+  
+  .location{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .property-gallery{
+    margin-top: 60px;
+  }
+  
+  .property-gallery h2{
+    display: flex;
+    align-items: center;
+  }
+  
+  .gallery{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .gallery img{
+    width: 330px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 1px 1px 10px gray;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .gallery img:hover{
+    transform: scale(1.05);
+    transition: 0.5s;
+  }
+  
+  .map{
+    width: 600px;
+    border: 0;
+  }

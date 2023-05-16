@@ -1,0 +1,59 @@
+.contact{
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+    background-image: linear-gradient( 92.7deg,  rgba(245,212,212,1) 8.5%, rgba(252,251,224,1) 90.2% );
+  }
+  
+  .contact-starting{
+    /* background-color: #302c2c; */
+    background: linear-gradient(-45deg,#1d4350,#a43931);
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+    text-align: center;
+    color: #ffede7;
+    margin: 0px auto;
+    padding: 10px;
+    height: 180px;
+    /* border-top: 1px solid #ffede7; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .contact-info {
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+    margin: 0 auto;
+    padding: 50px 0;
+    color: #302c2c;
+    /* background-color: #ffede7; */
+    /* background-image: linear-gradient( 92.7deg,  rgba(245,212,212,1) 8.5%, rgba(252,251,224,1) 90.2% ); */
+    /* background-image: linear-gradient( 109.5deg,  rgba(229,233,177,1) 11.2%, rgba(223,205,187,1) 100.2% ); */
+  }
+  
+  /* .contact-info>div{
+    background-color: #ffede7;
+  } */
+  
+  .contact-info p,.contact-info h3 {
+    margin: 15px auto;
+    width: 80%;
+  }
+  
+  .contact-info h1{
+    color: #a43931;
+  }
+  
+  .contact-info h3{
+    font-weight: 600;
+    background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  background-image: linear-gradient(-45deg,#1d4350,#a43931);
+  }
+  
+  .contact-info p{
+    font-weight: 500;
+  }
