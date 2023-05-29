@@ -1,0 +1,109 @@
+.portal-page{
+    display: flex;
+}
+
+.drawer-container{
+    background:#302c2c;
+    position: relative;
+    height:100vh;
+}
+
+.logo-image{
+    position: absolute;
+    bottom:0;
+    left: 15px;
+}
+
+.boxes{
+    display:flex;
+    justify-content:space-evenly;
+    flex-grow:1;
+    min-height:80vh;
+    align-items:center;
+    flex-wrap: wrap;
+}
+
+.box{
+    width:300px;
+    height:200px;
+    box-shadow: 1px 1px 15px silver;
+    border-radius: 3px;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 600;
+    color: #fff;
+    position: relative;
+}
+
+.box h4{
+    display: flex;
+    align-items: center;
+}
+
+.box-icon{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    font-size: 1.5rem;
+    padding: 7px 10px;
+    background-color: #7474BF;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 15px;
+    background-color: #fff;
+}
+
+.box:nth-child(3n-2){
+    background: #e43a15;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #e65245, #e43a15);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #e65245, #e43a15); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.box:nth-child(3n-2) .box-icon{
+    color:#e43a15;
+}
+
+.box:nth-child(3n-1){
+    background: #7474BF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #348AC7, #7474BF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color:'#fff';
+}
+
+.box:nth-child(3n-1) .box-icon{
+    color: #7474BF;
+}
+
+.box:nth-child(3n){
+    background: #fe8c00;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #f83600, #fe8c00);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #f83600, #fe8c00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color:'#fff';
+}
+
+.box:nth-child(3n) .box-icon{
+    color: #fe8c00;
+}
+
+.heading{
+    margin-left:20px;
+    font-weight:600;
+    display:flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.heading-icon{
+    background:#302c2c;
+    color:#FFF;
+    padding:3px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    border-radius: 5px;
+}
