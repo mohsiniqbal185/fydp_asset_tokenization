@@ -15,6 +15,7 @@ import Contact from "../components/Contact/Contact";
 import HomeContent from "../components/HomeContent/HomeContent";
 import Learn from "../components/Learn/Learn";
 import SingleProperty from "../components/SingleProperty/SingleProperty";
+import Portal from "../components/Portal/Portal";
 
 const AppLayout = () => {
   return (
@@ -47,6 +48,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
+      <Route path="/portal" element={<Portal/>}/>
       <Route path="projects/:id" element={
         <>
         <Header/>
