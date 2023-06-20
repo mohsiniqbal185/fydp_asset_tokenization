@@ -10,6 +10,8 @@ import {GrGallery} from "react-icons/gr"
 import {MdLocationOn} from "react-icons/md"
 import {IoLocationOutline} from "react-icons/io5"
 import './SingleProperty.css'
+import {motion} from 'framer-motion'
+import { containerVariants } from "../../animations/animation.js";
 
 const randomImage1 = 'https://source.unsplash.com/900x500/?house'
 const randomImage2 = 'https://source.unsplash.com/900x500/?house,building'
@@ -31,7 +33,7 @@ const SingleProperty = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="single-property">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="single-property">
       <div className="property-image">
         <img src={image ? image : ""} alt="property image" />
         <div className="tagname">
@@ -94,7 +96,7 @@ const SingleProperty = () => {
         </div>
       </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

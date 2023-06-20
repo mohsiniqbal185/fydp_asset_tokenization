@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { projects } from "../../data/Data.js";
 import './Projects.css'
+import {motion} from 'framer-motion'
+import { containerVariants } from "../../animations/animation.js";
+
 
 const Projects = () => {
   useEffect(() => {
@@ -11,7 +14,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <div className="projects">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="projects">
       <div className="projects-starting">
         <div>
           <h1
@@ -30,7 +33,7 @@ const Projects = () => {
       <div className="card-container">
         {projects.map((project, i) => {
           return (
-            <div className="card" key={i}>
+            <motion.div initial={{y:50,opacity:0}} whileInView={{y:0,opacity:1}} viewport={{ once: true }} transition={{duration:1}} className="card" key={i}>
               <img src={project.image} alt="image" />
               <div className="card-text">
                 <h1>{project.name}</h1>
@@ -46,11 +49,11 @@ const Projects = () => {
                   <BsArrowRightShort/>
                 </Link>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

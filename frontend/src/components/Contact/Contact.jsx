@@ -6,13 +6,15 @@ import {
 } from "react-icons/bs";
 import { useEffect } from "react";
 import "./Contact.css"
+import {motion} from 'framer-motion'
+import { containerVariants } from "../../animations/animation.js";
 
 const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="contact">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="contact">
       <div className="contact-starting">
         <div>
           <h1
@@ -61,7 +63,7 @@ const Contact = () => {
           <h3>mail@asaanreiturns.pk</h3>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
