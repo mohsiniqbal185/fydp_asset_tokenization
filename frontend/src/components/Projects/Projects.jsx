@@ -1,17 +1,35 @@
 import { IoLocationOutline } from "react-icons/io5";
 import { BsBuilding,BsArrowRightShort } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { projects } from "../../data/Data.js";
 import './Projects.css'
 import {motion} from 'framer-motion'
 import { containerVariants } from "../../animations/animation.js";
+import axios from "axios";
+
 
 
 const Projects = () => {
+
+  const [properties, setProperties] = useState([])
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const res = await axios.get("/api/properties")
+        setProperties(res.data)
+        console.log(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchProperties()
+  }, [])
 
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="projects">
@@ -31,7 +49,7 @@ const Projects = () => {
         </div>
       </div>
       <div className="card-container">
-        {projects.map((project, i) => {
+        {properties?.map((project, i) => {
           return (
             <motion.div initial={{y:50,opacity:0}} whileInView={{y:0,opacity:1}} viewport={{ once: true }} transition={{duration:1}} className="card" key={i}>
               <img src={project.image} alt="image" />
@@ -39,9 +57,9 @@ const Projects = () => {
                 <h1>{project.name}</h1>
                 <h3>
                   <IoLocationOutline />&nbsp;
-                  <span>{project.address}</span>
+                  <span>{project.location}</span>
                 </h3>
-                <p>{project.desc}</p>
+                {/* <p>{project.desc}</p> */}
               </div>
               <div>
                 <Link to={`/projects/${project.name}`}>
