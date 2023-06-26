@@ -4,13 +4,15 @@ import { BiTargetLock } from "react-icons/bi";
 import { FaHandshake } from "react-icons/fa";
 import { useEffect } from "react";
 import "./About.css"
+import {motion} from 'framer-motion'
+import { containerVariants } from "../../animations/animation.js";
 
 const About = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="about">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="about">
       <div className="about-starting">
         <div>
           <h1
@@ -88,7 +90,7 @@ const About = () => {
           </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

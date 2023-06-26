@@ -8,6 +8,7 @@ import { AiOutlinePhone } from "react-icons/ai";
 import { IoPeopleOutline } from "react-icons/io5";
 import { BsBuilding } from "react-icons/bs";
 import './Header.css'
+import { motion } from "framer-motion";
 
 const slideImages = [
   {
@@ -43,6 +44,33 @@ const properties = {
   // indicators: (i) => <div className="indicator">{i + 1}</div>
 };
 
+const slideVariants = {
+  leftBefore:{
+    y:"-100vh"
+  },
+  leftAfter:{
+    y:"0",
+    transition:{
+      duration:2,
+      type:'spring',
+      stiffness:50,
+      damping:10
+    }
+  },
+  rightBefore:{
+    y:"100vh"
+  },
+  rightAfter:{
+    y:"0",
+    transition:{
+      duration:2,
+      type:'spring',
+      stiffness:50,
+      damping:10
+    }
+  }
+}
+
 const Header = () => {
   const [navbarScroll, setNavbarScroll] = useState(true);
   const location = useLocation()
@@ -76,14 +104,14 @@ const Header = () => {
                 }}
               >
                 <div className="slide-caption">
-                  <div className="caption-text">{slideImage.caption}</div>
-                  <div>
+                  <motion.div variants={slideVariants} initial="leftBefore" animate="leftAfter" className="caption-text">{slideImage.caption}</motion.div>
+                  <motion.div variants={slideVariants} initial="rightBefore" animate="rightAfter">
                     <Link to={slideImage.linkTo}>
                       <button style={{ display: "flex", alignItems: "center" }}>
                         {slideImage.icon}&nbsp;{slideImage.btnText}
                       </button>
                     </Link>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </div>

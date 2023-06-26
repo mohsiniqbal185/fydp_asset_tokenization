@@ -3,6 +3,7 @@ import { SlGraduation } from "react-icons/sl";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './HomeContent.css'
+import { motion } from "framer-motion";
 
 const HomeContent = () => {
 
@@ -14,7 +15,8 @@ const HomeContent = () => {
 
   return (
     <>
-      <div className="process">
+      <motion.div initial={{y:100,opacity:0}} whileInView={{y:0,opacity:1}}
+  viewport={{ once: true }} transition={{duration:1.5}} className="process">
         <h1>
           <span class="rotate">
             <BsGear />
@@ -53,8 +55,9 @@ const HomeContent = () => {
         {/* <div style={{display:"flex",justifyContent:"center"}}>
           <Link to="/learn"><button className="btn"><SlGraduation/>&nbsp;Learn More</button></Link>
         </div> */}
-      </div>
-      <div className="home-content">
+      </motion.div>
+      <motion.div initial={{y:100,opacity:0}} whileInView={{y:0,opacity:1}}
+  viewport={{ once: true }} transition={{duration:0.75}} className="home-content">
         <div className="reasons">
           <div className="heading">
             <h4>Why Asaan REITurns&nbsp;</h4>
@@ -71,7 +74,7 @@ const HomeContent = () => {
         <div className="home-content-img">
           <img src="assets/p5-bg1.png" alt="" />
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

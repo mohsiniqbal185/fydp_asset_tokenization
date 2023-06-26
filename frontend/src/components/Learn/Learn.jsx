@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { LearnContent } from "../../data/LearnContent";
 import { useActiveMenu } from "react-active-menu";
 import './Learn.css'
+import {motion} from 'framer-motion'
+import { containerVariants } from "../../animations/animation.js";
 
 const Separator = () => {
   return (
@@ -34,7 +36,7 @@ const Learn = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="learn">
+    <motion.div variants={containerVariants} initial="hidden" animate="visible" className="learn">
       <div className="learn-starting">
         <div>
           <h1
@@ -72,7 +74,7 @@ const Learn = () => {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
