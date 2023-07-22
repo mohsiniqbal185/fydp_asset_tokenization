@@ -47,7 +47,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="/sign-in" element={<SignIn />} />
       <Route path="/sign-up" element={<SignUp />} />
-      <Route path="projects/:id" element={
+      <Route path="projects/:property_id" element={
         <>
         <Header/>
         <SingleProperty />

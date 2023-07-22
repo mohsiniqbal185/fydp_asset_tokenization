@@ -62,7 +62,7 @@ const Projects = () => {
                 {/* <p>{project.desc}</p> */}
               </div>
               <div>
-                <Link to={`/projects/${project.name}`}>
+                <Link to={`/projects/${project.property_id}`}>
                   <span>View Property</span>&nbsp;
                   <BsArrowRightShort/>
                 </Link>

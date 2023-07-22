@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {getProperties}= require('../controllers/propertyControllers')
+const {getProperties, getSingleProperty}= require('../controllers/propertyControllers')
 
 router.get("/", getProperties)
-// router.post("/register", )
-// router.post("/logout", )
+router.get("/:property_id", getSingleProperty)
+
 
 module.exports = router;

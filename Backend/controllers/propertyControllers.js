@@ -14,4 +14,17 @@ const getProperties = (req, res) => {
     });
 }
 
-module.exports = {getProperties}
+const getSingleProperty = (req, res)=> {
+
+  const property_id = req.params.property_id;
+
+  const q = "SELECT * FROM PROPERTY WHERE PROPERTY_ID = ?"
+
+  db.query(q, [property_id], (err, data) => {
+
+    if (err) return res.status(500).json(err);
+    res.status(200).json(data)
+  })
+}
+
+module.exports = {getProperties, getSingleProperty}

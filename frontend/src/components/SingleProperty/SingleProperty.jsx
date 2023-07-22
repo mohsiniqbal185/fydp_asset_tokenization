@@ -12,6 +12,8 @@ import {IoLocationOutline} from "react-icons/io5"
 import './SingleProperty.css'
 import {motion} from 'framer-motion'
 import { containerVariants } from "../../animations/animation.js";
+import axios from "axios";
+
 
 const randomImage1 = 'https://source.unsplash.com/900x500/?house'
 const randomImage2 = 'https://source.unsplash.com/900x500/?house,building'
@@ -20,14 +22,32 @@ const randomImage4 = 'https://source.unsplash.com/900x500/?house,home'
 const randomImage5 = 'https://source.unsplash.com/900x500/?home,building'
 
 const SingleProperty = () => {
-  const { id } = useParams();
-  const [image, setImage] = useState(null);
+
+  const property_id = useParams().property_id;
+
+  const [property, setProperty] = useState(null)
+
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const res = await axios.get(`/api/properties/${property_id}`)
+        setProperty(res.data[0])
+        console.log(res.data[0])
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchProperty()
+  }, [])
+
+  // const { id } = useParams();
+  // const [image, setImage] = useState(null);
 
   let currentProject;
-  useEffect(() => {
-    currentProject = projects.filter((p) => p.name === id);
-    setImage(currentProject[0].image);
-  }, []);
+  // useEffect(() => {
+  //   currentProject = projects.filter((p) => p.name === id);
+  //   setImage(currentProject[0].image);
+  // }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,10 +55,10 @@ const SingleProperty = () => {
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible" className="single-property">
       <div className="property-image">
-        <img src={image ? image : ""} alt="property image" />
+        <img src={property?.image ? property.image : ""} alt="property image" />
         <div className="tagname">
           <div>
-            <h2><BiBuildingHouse/>&nbsp;{id}</h2>
+            <h2><BiBuildingHouse/>&nbsp;{property?.name}</h2>
           </div>
         </div>
       </div>
@@ -46,26 +66,26 @@ const SingleProperty = () => {
       <div className="property-info">
               <div className="info">
                 <h5><RxDimensions/>&nbsp;Area</h5>
-                <h6>100 yards</h6>
+                <h6>{property?.size_of_property} yards</h6>
               </div>
               <div className="info">
                 <h5><GiPriceTag/>&nbsp;Token Price</h5>
-                <h6>Rs. 40000</h6>
+                <h6>Rs. {property?.value_in_pkr/property?.no_of_tokens}</h6>
               </div>
               <div className="info">
                 <h5><GiToken/>&nbsp;Total Tokens</h5>
-                <h6>1000</h6>
+                <h6>{property?.no_of_tokens}</h6>
               </div>
               <div className="info">
                 <h5><BsFillCheckCircleFill/>&nbsp;Tokens Available</h5>
-                <h6>600</h6>
+                <h6>{property?.no_of_tokens - property?.tokens_sold}</h6>
               </div>
           </div>
       <div className="property-desc">
         <h2><AiOutlineInfoCircle/>&nbsp;Property Description:</h2>
         <div className="description">
           <p>
-          {id} is an impressive modern structure that stands out amidst the
+          {/* {id} is an impressive modern structure that stands out amidst the */}
            surrounding landscape. It is a multi-story building with a sleek and
             contemporary design that combines glass and steel, with clean lines
              and angular shapes. The facade features floor-to-ceiling windows that
@@ -81,7 +101,7 @@ const SingleProperty = () => {
       <div className="property-location">
         <h2><IoLocationOutline/>&nbsp;Location:</h2>
         <div className="location">
-          <div><h3>Karachi, Pakistan</h3></div>
+          <div><h3>{property?.location}</h3></div>
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d924234.6302710465!2d66.59495074892502!3d25.19338946981612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33e06651d4bbf%3A0x9cf92f44555a0c23!2sKarachi%2C%20Karachi%20City%2C%20Sindh%2C%20Pakistan!5e0!3m2!1sen!2s!4v1677525227222!5m2!1sen!2s" height="400" className="map" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
