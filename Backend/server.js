@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended : false }));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/properties', require('./routes/propertyRoutes'));
 app.use('/api/tokenTransactions', require('./routes/tokenTransactionsRoutes'));
+app.use('/api/tokenRequest', require('./routes/tokenRequestRoutes'));
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
   });
