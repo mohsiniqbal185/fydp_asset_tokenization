@@ -30,7 +30,7 @@ const SingleProperty = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
-        const res = await axios.get(`/api/properties/${property_id}`)
+        const res = await axios.get(`/api/user/properties/${property_id}`)
         setProperty(res.data[0])
         console.log(res.data[0])
       } catch (error) {
