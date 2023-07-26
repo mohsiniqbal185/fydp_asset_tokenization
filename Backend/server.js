@@ -11,10 +11,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended : false }));  
 
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/properties', require('./routes/propertyRoutes'));
-app.use('/api/tokenTransactions', require('./routes/tokenTransactionsRoutes'));
-app.use('/api/tokenRequest', require('./routes/tokenRequestRoutes'));
+
+// USER ROUTES  
+app.use('/api/user/auth', require('./routes/user/authRoutes'));
+app.use('/api/user/properties', require('./routes/user/propertyRoutes'));
+app.use('/api/user/token-transactions', require('./routes/user/tokenTransactionsRoutes'));
+app.use('/api/user/token-request', require('./routes/user/tokenRequestRoutes'));
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
   });

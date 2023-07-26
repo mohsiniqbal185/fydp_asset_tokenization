@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const mysql = require('mysql');
-const {db} = require('../config/db')
+const {db} = require('../../config/db')
 
 
 const registerUser = (req, res) => {
