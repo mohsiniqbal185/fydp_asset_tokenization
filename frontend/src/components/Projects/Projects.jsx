@@ -21,7 +21,7 @@ const Projects = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await axios.get("/api/properties")
+        const res = await axios.get("/api/user/properties")
         setProperties(res.data)
         console.log(res.data)
       } catch (error) {

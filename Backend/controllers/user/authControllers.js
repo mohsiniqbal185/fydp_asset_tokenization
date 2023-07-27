@@ -38,6 +38,17 @@ const registerUser = (req, res) => {
     });
   };
 
+  //GET
+  const login = (req, res) => {
+      if (req.session.user) {
+        res.send({ loggedIn: true, user: req.session.user });
+        // console.log(req.session.user)
+      } else {
+        res.send({ loggedIn: false });
+      }
+  }
+
+  //POST 
   const loginUser = (req, res) => {
     const q = "SELECT * FROM user WHERE email = ?";
   
@@ -51,18 +62,14 @@ const registerUser = (req, res) => {
       );
   
       if (!checkPassword)
-        return res.status(400).json("Wrong password!");
+        return res.status(400).json({error:"Wrong password!"});
   
-      const token = jwt.sign({ id: data[0].user_id }, "secretkey");
+      const { user_password, ...userData } = data[0];
   
-      const { password, ...others } = data[0];
-  
-      res
-        .cookie("accessToken", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json(others);
+      //create a session of this user in the browser and give him the user data
+      req.session.user = userData;
+      // console.log(req.session.user);
+      res.json(userData);
     });
   };
 
@@ -73,4 +80,4 @@ const registerUser = (req, res) => {
     }).status(200).json("User has been logged out.")
   };
 
-module.exports = {registerUser, loginUser, logoutUser}
+module.exports = {registerUser, loginUser, logoutUser, login}
