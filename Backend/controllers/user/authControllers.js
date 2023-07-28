@@ -54,7 +54,7 @@ const registerUser = (req, res) => {
   
     db.query(q, [req.body.email], (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.length === 0) return res.status(404).json("User not found!");
+      if (data.length === 0) return res.status(404).json({error: "User not found!"});
   
       const checkPassword = bcrypt.compareSync(
         req.body.password,
@@ -69,7 +69,7 @@ const registerUser = (req, res) => {
       //create a session of this user in the browser and give him the user data
       req.session.user = userData;
       // console.log(req.session.user);
-      res.json(userData);
+      res.status(200).json(userData);
     });
   };
 
