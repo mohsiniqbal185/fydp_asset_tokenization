@@ -14,7 +14,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.4",
     "axios": "^1.4.0",
-    "framer-motion": "^10.12.16",
+    "framer-motion": "^10.13.1",
     "react": "^18.2.0",
     "react-active-menu": "^0.0.14",
     "react-dom": "^18.2.0",
