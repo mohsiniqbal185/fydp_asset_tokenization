@@ -21,7 +21,9 @@
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.0",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "qs": "^6.11.2",
+    "query-string": "^8.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
