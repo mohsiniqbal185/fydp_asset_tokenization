@@ -3,14 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2023 at 07:35 PM
+-- Generation Time: Aug 01, 2023 at 11:51 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
+SET FOREIGN_KEY_CHECKS= 0;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -236,17 +236,16 @@ CREATE TABLE `token_buy_request` (
   `no_of_tokens` int(11) DEFAULT NULL,
   `date_of_request` datetime DEFAULT current_timestamp(),
   `status` int(11) DEFAULT NULL,
-  `payment_status` int(11) DEFAULT NULL,
-  `payment_id` int(11) DEFAULT NULL
+  `payment_status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `token_buy_request`
 --
 
-INSERT INTO `token_buy_request` (`req_id`, `user_id`, `property_id`, `no_of_tokens`, `date_of_request`, `status`, `payment_status`, `payment_id`) VALUES
-(1, 9, 1, 2, '2023-07-23 01:22:22', 1, 0, NULL),
-(2, 8, 1, 7, '2023-07-23 01:23:14', 0, 1, NULL);
+INSERT INTO `token_buy_request` (`req_id`, `user_id`, `property_id`, `no_of_tokens`, `date_of_request`, `status`, `payment_status`) VALUES
+(1, 9, 1, 2, '2023-07-23 01:22:22', 1, 0),
+(2, 8, 1, 7, '2023-07-23 01:23:14', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -281,17 +280,18 @@ CREATE TABLE `token_transactions` (
   `receiver_id` int(11) DEFAULT NULL,
   `no_of_tokens` int(11) DEFAULT NULL,
   `date_time` datetime DEFAULT current_timestamp(),
-  `transaction_hash` varchar(150) DEFAULT NULL
+  `transaction_hash` varchar(150) DEFAULT NULL,
+  `payment_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `token_transactions`
 --
 
-INSERT INTO `token_transactions` (`token_transaction_id`, `property_id`, `sender_id`, `receiver_id`, `no_of_tokens`, `date_time`, `transaction_hash`) VALUES
-(3, 1, 3, 9, 2, '2023-07-22 20:06:31', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66162'),
-(4, 1, 3, 9, 3, '2023-07-22 20:07:13', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66163'),
-(5, 1, 3, 8, 5, '2023-07-22 20:08:17', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66164');
+INSERT INTO `token_transactions` (`token_transaction_id`, `property_id`, `sender_id`, `receiver_id`, `no_of_tokens`, `date_time`, `transaction_hash`, `payment_id`) VALUES
+(3, 1, 3, 9, 2, '2023-07-22 20:06:31', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66162', NULL),
+(4, 1, 3, 9, 3, '2023-07-22 20:07:13', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66163', NULL),
+(5, 1, 3, 8, 5, '2023-07-22 20:08:17', '0xc13d7905be5c989378a945487cd2a1193627ae606009e28e296d48ddaec66164', NULL);
 
 -- --------------------------------------------------------
 
@@ -426,8 +426,7 @@ ALTER TABLE `token_buy_request`
   ADD KEY `property_id` (`property_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `status` (`status`),
-  ADD KEY `fk_payment_status_id` (`payment_status`),
-  ADD KEY `fk_payment` (`payment_id`);
+  ADD KEY `fk_payment_status_id` (`payment_status`);
 
 --
 -- Indexes for table `token_holders`
@@ -443,7 +442,8 @@ ALTER TABLE `token_transactions`
   ADD PRIMARY KEY (`token_transaction_id`),
   ADD KEY `property_id` (`property_id`),
   ADD KEY `receiver_id` (`receiver_id`),
-  ADD KEY `sender_id` (`sender_id`);
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `fk_payment` (`payment_id`);
 
 --
 -- Indexes for table `token_value`
@@ -576,7 +576,6 @@ ALTER TABLE `smart_contracts`
 -- Constraints for table `token_buy_request`
 --
 ALTER TABLE `token_buy_request`
-  ADD CONSTRAINT `fk_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
   ADD CONSTRAINT `fk_payment_status_id` FOREIGN KEY (`payment_status`) REFERENCES `payment_status` (`payment_status_id`),
   ADD CONSTRAINT `token_buy_request_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`),
   ADD CONSTRAINT `token_buy_request_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
@@ -594,6 +593,7 @@ ALTER TABLE `token_holders`
 --
 ALTER TABLE `token_transactions`
   ADD CONSTRAINT `fk_admin_sender` FOREIGN KEY (`sender_id`) REFERENCES `admin_user` (`user_id`),
+  ADD CONSTRAINT `fk_payment` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`),
   ADD CONSTRAINT `token_transactions_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `property` (`property_id`),
   ADD CONSTRAINT `token_transactions_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `user` (`user_id`);
 
@@ -607,3 +607,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+SET FOREIGN_KEY_CHECKS= 1;
