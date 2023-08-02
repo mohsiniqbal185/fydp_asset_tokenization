@@ -17,7 +17,27 @@ const getPendingRequestsOfUser = (req, res) => {
 
   const user_id = req.params.user_id
 
-  const q = "SELECT * FROM token_buy_request where user_id = ? AND status = 0"
+  // const q = "SELECT * FROM token_buy_request where user_id = ? AND status = 0"
+  const q = `
+    SELECT 
+      tbr.req_id,
+      tbr.user_id,
+      tbr.property_id,
+      tbr.no_of_tokens,
+      tbr.date_of_request,
+      tbr.status as request_status,
+      tbr.payment_status,
+      tv.token_value,
+      tbr.no_of_tokens * tv.token_value AS cost_of_tokens
+
+    FROM token_buy_request tbr
+    INNER JOIN property p ON p.property_id = tbr.property_id
+    INNER JOIN token_value tv ON p.token_id = tv.token_id
+    
+    WHERE tbr.user_id = ? AND tbr.status = 0;
+
+  `;
+  
 
   db.query(q, [user_id], (err, data) => {
     if (err) return res.status(500).json(err);

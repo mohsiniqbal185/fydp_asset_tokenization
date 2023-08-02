@@ -18,7 +18,29 @@ const getSingleProperty = (req, res)=> {
 
   const property_id = req.params.property_id;
 
-  const q = "SELECT * FROM PROPERTY WHERE PROPERTY_ID = ?"
+  const q = `
+      SELECT 
+
+      p.property_id,
+      p.name AS property_name,
+      p.image,
+      p.tokens_sold,
+      p.location,
+      t.total_supply,
+      tv.token_value AS token_price,
+      t.total_supply - p.tokens_sold AS tokens_left
+
+
+    FROM 
+      property p
+      INNER JOIN 
+        tokens t ON p.token_id = t.token_id
+      INNER JOIN  
+        token_value tv ON t.token_id = tv.token_id
+    
+    WHERE
+      p.property_id = ?;
+  `;
 
   db.query(q, [property_id], (err, data) => {
 
