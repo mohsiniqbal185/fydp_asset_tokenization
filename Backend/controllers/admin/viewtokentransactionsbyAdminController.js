@@ -24,7 +24,7 @@ const viewtokentransactionsbyAdmin = (req, res) => {
         a.req_id,
         b.name AS Property_Name,
         a.property_id,
-        c.payment_status,
+        h.payment_status,
         d.token_name,
         a.date_of_request,
         e.name AS Status,
@@ -41,10 +41,12 @@ const viewtokentransactionsbyAdmin = (req, res) => {
     INNER JOIN 
         request_status e ON a.status = e.status_id
     INNER JOIN 
-        payment_status c ON a.payment_status = c.payment_status_id
+        payment c ON a.req_id = c.transaction_id
+    INNER JOIN 
+        payment_status h ON c.payment_status = h.payment_status_id
     INNER JOIN 
         tokens d ON b.token_id = d.token_id
-        INNER JOIN 
+    INNER JOIN 
         token_value g ON b.token_id = g.token_id
   
     WHERE 
