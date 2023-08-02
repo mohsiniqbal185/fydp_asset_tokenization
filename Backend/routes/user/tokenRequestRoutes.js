@@ -5,6 +5,4 @@ const {buyTokenRequest, getPendingRequestsOfUser}= require('../../controllers/us
 router.post("/buy", buyTokenRequest)
 router.get("/pending/:user_id", getPendingRequestsOfUser)
 
-
-
 module.exports = router;

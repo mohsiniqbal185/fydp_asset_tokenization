@@ -45,6 +45,8 @@ app.get('/api/user/delete-session', (req, res) => {
 // ADMIN ROUTES
 app.use('/api/admin/users',require('./routes/admin/adminUsersDisplayRoutes'));
 app.use('/api/admin/view_token_transactions',require('./routes/admin/viewTokenTransactionsRoutes'));
+app.use('/api/admin/view_token_payments',require('./routes/admin/viewpaymentsbyAdminRoutes'));
+app.use('/api/admin/manage_token_transactions',require('./routes/admin/manageTokenTransactionsByAdminRoutes'));
 
 
 
