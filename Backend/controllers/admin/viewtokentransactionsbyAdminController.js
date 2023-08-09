@@ -26,7 +26,7 @@ const viewtokentransactionsbyAdmin = (req, res) => {
         a.property_id,
         h.payment_status,
         d.token_name,
-        a.date_of_request,
+        DATE_FORMAT(a.date_of_request, '%Y-%m-%d %H:%i:%s') AS date_of_request,
         e.name AS Status,
         g.token_value AS TokenValue,
         a.no_of_tokens,
