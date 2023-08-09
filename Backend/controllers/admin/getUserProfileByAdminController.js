@@ -16,7 +16,7 @@ const getUserProfileByAdmin = (req, res) => {
       a.req_id,
       b.name AS Property_Name,
       a.property_id,
-      c.payment_status,
+      g.payment_status,
       d.token_name,
       a.date_of_request,
       e.name AS Status,
@@ -31,8 +31,10 @@ const getUserProfileByAdmin = (req, res) => {
       property b ON a.property_id = b.property_id
       INNER JOIN 
       request_status e ON a.status = e.status_id
+      INNER JOIN 
+      payment c ON a.req_id = c.transaction_id
   INNER JOIN 
-      payment_status c ON a.payment_status = c.payment_status_id
+      payment_status g ON c.payment_status = g.payment_status_id
   INNER JOIN 
       tokens d ON b.token_id = d.token_id
     INNER JOIN 
