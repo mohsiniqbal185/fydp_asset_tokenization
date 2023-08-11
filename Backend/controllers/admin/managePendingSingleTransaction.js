@@ -17,12 +17,15 @@ const managePendingSingleTransaction = (req, res) =>{
         g.token_value AS TokenValue,
         a.no_of_tokens,
         a.no_of_tokens * g.token_value AS TransactionValue,
+        b.tokens_sold AS TokensSold,
         d.total_supply - b.tokens_sold AS RemainingTokens,
         c.payment_amount AS Payment_Amount,
         h.payment_status,
         c.payment_id,
         c.payment_method,
         DATE_FORMAT(c.DateTime, '%Y-%m-%d %H:%i:%s') AS Date_of_Payment,
+        f.wallet_address AS Client_Wallet_Address,
+        k.contract_address as Property_Contract_Address,
         c.payment_receipt_file_name
 
     FROM 
@@ -41,6 +44,8 @@ const managePendingSingleTransaction = (req, res) =>{
         tokens d ON b.token_id = d.token_id
     INNER JOIN 
         token_value g ON b.token_id = g.token_id
+        INNER JOIN 
+        smart_contracts k ON b.property_id = k.property_id
   
     WHERE 
         a.req_id = ${reqID}
