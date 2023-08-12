@@ -1,25 +1,35 @@
 const bcrypt = require('bcryptjs');
+const bcrypt2 = require('bcrypt');
+const nodemailer = require("nodemailer");
+
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 const mysql = require('mysql');
+const { ethers } = require("ethers");
 const {db} = require('../../config/db')
 
 
 const registerUser = (req, res) => {
     //CHECK USER IF EXISTS
+    console.log(req.body)
   
     const q = "SELECT * FROM user WHERE email = ?";
   
-    db.query(q, [req.body.email], (err, data) => {
+    db.query(q, [req.body.email], async (err, data) => {
       if (err) return res.status(500).json(err);
-      if (data.length) return res.status(409).json("User already exists!");
+      if (data.length) return res.status(409).json({error: "User already exists!"});
       //CREATE A NEW USER
       //Hash the password
-      const salt = bcrypt.genSaltSync(10);
-      const hashedPassword = bcrypt.hashSync(req.body.password, salt);
+      const salt = await  bcrypt2.genSalt(10);
+      const hashedPassword = await  bcrypt2.hash(req.body.password, salt);
+
+      if (!hashedPassword) {
+        // Handle the case where the password is missing or empty
+        return res.status(400).json({ error: "Password is required." });
+      }
   
       const q =
-        "INSERT INTO user (email, fname, lname, user_password, contact, user_role, CNIC) VALUE (?)";
+        "INSERT INTO user (email, fname, lname, user_password, contact, CNIC) VALUE (?)";
   
       const values = [
         req.body.email,
@@ -27,13 +37,64 @@ const registerUser = (req, res) => {
         req.body.lname,
         hashedPassword,
         req.body.contact,
-        req.body.user_role,
         req.body.CNIC,
       ];
   
       db.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
-        return res.status(200).json("User has been created.");
+        // console.log(data)
+
+        if (!data.insertId) {
+          return res.status(500).json({ error: "User registration failed." });
+        }
+        
+        const mnemonic = process.env.MNEMON;
+        const masterNode = ethers.utils.HDNode.fromMnemonic(mnemonic);
+        const derivedNode = masterNode.derivePath(`m/44'/60'/0'/0/${data.insertId}`);
+        const wallet = new ethers.Wallet(derivedNode.privateKey);
+        const address = wallet.address;
+
+        const wallet_query = "UPDATE user SET wallet_address = ? WHERE email = ?;";
+
+        db.query(wallet_query,[address, req.body.email], async (err, data) => {
+          if (err) return res.status(500).json(err);
+
+          //Proceed to send welcome email to the new user
+
+          const config = {
+            service: "gmail",
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: {
+              user: "asaanreiturns@gmail.com",
+              pass: process.env.EMAIL_PASS
+            }
+          }
+
+          const sendMail = (messageData) => {
+            const transporter = nodemailer.createTransport(config);
+            transporter.sendMail(messageData, (err, info) => {
+              if (err){
+                console.log(err)
+              }else{
+                return info.response;
+              }
+            })
+          }
+
+          messageData = {
+            "from": "asaanreiturns@gmail.com",
+            "to": req.body.email,
+            "subject": "Welcome to AsaanREITurns.",
+            "text": `Hi ${req.body.fname} ${req.body.lname}, \n \nWelcome to AsaanREITurns. We are delighted to have you on board ! \n \nRegards, \nAsaanREITurns Team`
+          }
+
+          const sent = sendMail(messageData)
+
+          return res.status(200).json("User has been created.");
+        })
+      
       });
     });
   };
