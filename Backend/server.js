@@ -50,7 +50,6 @@ app.use('/api/admin/manage_token_transactions',require('./routes/admin/manageTok
 
 
 
-
 app.get('/', (req, res) => {
     res.send('Server is up and running!');
 
