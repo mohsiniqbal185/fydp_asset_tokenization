@@ -11,6 +11,33 @@ const getUserTransactions = (req, res) => {
     });
 }
 
+const getRecentTransactions = (req, res) => {
+
+    const q = `SELECT 
+      p.name as property_name,
+      p.property_code,
+      receiver_user.wallet_address as receiver_wallet_address,
+      sender_user.wallet_address as sender_wallet_address,
+      tt.no_of_tokens,
+      tt.date_time,
+      tt.transaction_hash
+
+     FROM token_transactions tt
+     INNER JOIN property p ON p.property_id = tt.property_id
+     INNER JOIN user receiver_user ON receiver_user.user_id = tt.receiver_id
+     INNER JOIN user sender_user ON sender_user.user_id = tt.sender_id
+
+     ORDER BY tt.date_time DESC
+     LIMIT 5
+     ;`;
+  
+    db.query(q, (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.length === 0) return res.status(404).json({data : data, error: "No transactions done on Platform yet!"});
+      res.status(200).json(data)
+    });
+}
+
 const getUserTransactionsInPastMonths = (req, res) => {
     const user_id = req.params.user_id
     const q = `
@@ -102,4 +129,4 @@ const getUserTransactionsInPastMonths = (req, res) => {
 
 
 
-module.exports = {getUserTransactions, getUserTransactionsInPastMonths}
+module.exports = {getUserTransactions, getUserTransactionsInPastMonths, getRecentTransactions}

@@ -34,8 +34,9 @@ const getPendingRequestsOfUser = (req, res) => {
     INNER JOIN property p ON p.property_id = tbr.property_id
     INNER JOIN token_value tv ON p.token_id = tv.token_id
     
-    WHERE tbr.user_id = ? AND tbr.status = 0;
-
+    WHERE tbr.user_id = ? AND tbr.status = 0
+    ORDER BY tbr.date_of_request DESC
+    
   `;
   
 

@@ -34,6 +34,7 @@ app.use('/api/user/auth', require('./routes/user/authRoutes'));
 app.use('/api/user/properties', require('./routes/user/propertyRoutes'));
 app.use('/api/user/token-transactions', require('./routes/user/tokenTransactionsRoutes'));
 app.use('/api/user/token-request', require('./routes/user/tokenRequestRoutes'));
+app.use('/api/user/active-investments', require('./routes/user/portfolioRoutes'));
 app.get('/api/user/delete-session', (req, res) => {
   
   // Delete the session of this requesting user
