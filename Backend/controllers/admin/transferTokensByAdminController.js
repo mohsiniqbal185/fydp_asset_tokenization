@@ -25,6 +25,8 @@ async function TransferTokens(req,res) {
     payment_id = Number (req.query.payment_id);
     req_id = Number (req.query.req_id);
     tokens_sold =Number  (req.query.tokens_sold);
+    token_value_id=Number  (req.query.token_value_id);
+
     // Replace these variables with your actual values
     const contractAddress = '0x0073CD1A0312758473ab56488946cCFc82EA89A9';
     const privateKey = "503259ad1995c4d6c1ff137b9cf9458d8ae431c53bd3b517e4b918d6546a6da5";
@@ -35,7 +37,7 @@ async function TransferTokens(req,res) {
         transaction_hash =await transferTokens(property_contract_address, privateKey, infuraApiKey, user_wallet_address, no_of_tokens);
         console.log('done',transaction_hash);
         updatedtokenssold= tokens_sold + no_of_tokens;
-        getaddTokenTransactionQuery='INSERT INTO token_transactions(property_id,sender_id,receiver_id,no_of_tokens,transaction_hash,payment_id) VALUES (?,?,?,?,?,?)';
+        getaddTokenTransactionQuery='INSERT INTO token_transactions(property_id,sender_id,receiver_id,no_of_tokens,transaction_hash,payment_id,token_value_id) VALUES (?,?,?,?,?,?,?)';
         getupdateTokenbuyStatusQuery = 'UPDATE token_buy_request SET status=1 where req_id=?;';
         getupdateTokensSoldQuery = 'UPDATE property SET  tokens_sold=? where property_id=?;';
         // data = await db.query(getaddTokenTransactionQuery, [property_id, 3,pledger_id, no_of_tokens, transaction_hash, payment_id]);
@@ -47,7 +49,7 @@ async function TransferTokens(req,res) {
         // await db.commit();
         const promises = [
             new Promise((resolve, reject) => {
-                db.query(getaddTokenTransactionQuery,[property_id,3, pledger_id, no_of_tokens, transaction_hash, payment_id], (err, addTokenTransactionQuery) => {
+                db.query(getaddTokenTransactionQuery,[property_id,3, pledger_id, no_of_tokens, transaction_hash, payment_id,token_value_id], (err, addTokenTransactionQuery) => {
                     if (err) reject(err);
                     resolve(addTokenTransactionQuery);
                 });

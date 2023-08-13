@@ -8,6 +8,7 @@ const managePendingSingleTransaction = (req, res) =>{
     SELECT 
         a.user_id AS Pledger_ID,
         CONCAT(f.fname,' ',f.lname) AS Pledger_Name,
+        a.token_value_id,
         a.req_id,
         b.name AS Property_Name,
         a.property_id,
@@ -37,13 +38,13 @@ const managePendingSingleTransaction = (req, res) =>{
     INNER JOIN 
         request_status e ON a.status = e.status_id
     INNER JOIN 
-        payment c ON a.req_id = c.transaction_id
+        payment c ON a.req_id = c.req_id
     INNER JOIN 
-        payment_status h ON c.payment_status = h.payment_status_id
+        payment_status h ON a.payment_status = h.payment_status_id
     INNER JOIN 
         tokens d ON b.token_id = d.token_id
     INNER JOIN 
-        token_value g ON b.token_id = g.token_id
+        token_value g ON a.token_value_id = g.token_value_id
         INNER JOIN 
         smart_contracts k ON b.property_id = k.property_id
   

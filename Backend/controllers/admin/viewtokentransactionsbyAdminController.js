@@ -16,7 +16,8 @@ const viewtokentransactionsbyAdmin = (req, res) => {
 
     // Get the value of a specific parameter
     // const paramValue = urlParams.get('property_id')
-    const getTransactionsDataQuery = `SELECT * FROM token_transactions a INNER JOIN property b ON a.property_id=b.property_id INNER JOIN user c ON a.receiver_id = c.user_id INNER JOIN tokens d ON b.token_id = d.token_id INNER JOIN token_value e ON d.token_id = e.token_id WHERE a.property_id=${propertyId};`;
+    // const getTransactionsDataQuery = `SELECT * FROM token_transactions a INNER JOIN property b ON a.property_id=b.property_id INNER JOIN user c ON a.receiver_id = c.user_id INNER JOIN tokens d ON b.token_id = d.token_id INNER JOIN token_value e ON d.token_id = e.token_id WHERE a.property_id=${propertyId};`;
+    const getTransactionsDataQuery = `SELECT * FROM token_transactions a INNER JOIN property b ON a.property_id=b.property_id INNER JOIN tokens c ON b.token_id = c.token_id INNER JOIN token_value d ON a.token_value_id = d.token_value_id INNER JOIN user e ON a.receiver_id = e.user_id WHERE  a.property_id=${propertyId};`;
     const getPendingTransactionsDataQuery = `
     SELECT 
         a.user_id AS Pledger_ID,
@@ -41,13 +42,11 @@ const viewtokentransactionsbyAdmin = (req, res) => {
     INNER JOIN 
         request_status e ON a.status = e.status_id
     INNER JOIN 
-        payment c ON a.req_id = c.transaction_id
-    INNER JOIN 
-        payment_status h ON c.payment_status = h.payment_status_id
+        payment_status h ON a.payment_status = h.payment_status_id
     INNER JOIN 
         tokens d ON b.token_id = d.token_id
     INNER JOIN 
-        token_value g ON b.token_id = g.token_id
+        token_value g ON a.token_value_id = g.token_value_id
   
     WHERE 
         a.property_id = ${propertyId}
