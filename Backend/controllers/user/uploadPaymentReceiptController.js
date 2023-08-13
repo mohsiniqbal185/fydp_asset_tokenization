@@ -52,7 +52,9 @@ const getDataForSinglePaymentReceipt = (req, res) => {
   u.email as payment_from,
   p.DateTime,
   ps.payment_status,
-  p.payment_amount
+  p.payment_amount,
+  p.payment_receipt_file_name
+  
   FROM payment p 
     INNER JOIN token_buy_request tbr ON tbr.req_id = p.req_id
     INNER JOIN payment_status ps ON tbr.payment_status = ps.payment_status_id
