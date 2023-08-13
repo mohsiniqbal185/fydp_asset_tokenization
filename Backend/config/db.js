@@ -1,13 +1,14 @@
 const mysql = require("mysql");
 const dotenv = require("dotenv");
-
+const util = require('util');
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "root",
   database: process.env.DATABASE,
   port: process.env.DB_PORT,
 });
+const query = util.promisify(db.query).bind(db);
 
 // connection.connect((err) => {
 //     if (err) {
@@ -16,4 +17,4 @@ const db = mysql.createPool({
 //     console.log('db ' + connection.state);
 // });
 
-module.exports = { db };
+module.exports = { db ,query };
