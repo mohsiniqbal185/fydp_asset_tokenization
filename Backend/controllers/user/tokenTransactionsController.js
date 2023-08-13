@@ -17,7 +17,6 @@ const getRecentTransactions = (req, res) => {
       p.name as property_name,
       p.property_code,
       receiver_user.wallet_address as receiver_wallet_address,
-      sender_user.wallet_address as sender_wallet_address,
       tt.no_of_tokens,
       tt.date_time,
       tt.transaction_hash
@@ -25,7 +24,6 @@ const getRecentTransactions = (req, res) => {
      FROM token_transactions tt
      INNER JOIN property p ON p.property_id = tt.property_id
      INNER JOIN user receiver_user ON receiver_user.user_id = tt.receiver_id
-     INNER JOIN user sender_user ON sender_user.user_id = tt.sender_id
 
      ORDER BY tt.date_time DESC
      LIMIT 5
