@@ -10,7 +10,7 @@ const getUserProfileByAdmin = (req, res) => {
     // });
     const userID = req.query.user_id;
     const getUserQuery = `SELECT * FROM USER WHERE user_id=${userID};`;
-    const getTransactionsDataQuery = `SELECT * FROM token_transactions a INNER JOIN property b ON a.property_id=b.property_id INNER JOIN tokens c ON b.token_id = c.token_id INNER JOIN token_value d ON c.token_id = d.token_id WHERE a.receiver_id=${userID};`;
+    const getTransactionsDataQuery = `SELECT * FROM token_transactions a INNER JOIN property b ON a.property_id=b.property_id INNER JOIN tokens c ON b.token_id = c.token_id INNER JOIN token_value d ON a.token_value_id = d.token_value_id WHERE a.receiver_id=${userID};`;
     const getPendingTransactionsDataQuery = `
   SELECT 
       a.req_id,
@@ -31,14 +31,12 @@ const getUserProfileByAdmin = (req, res) => {
       property b ON a.property_id = b.property_id
       INNER JOIN 
       request_status e ON a.status = e.status_id
-      INNER JOIN 
-      payment c ON a.req_id = c.transaction_id
   INNER JOIN 
-      payment_status g ON c.payment_status = g.payment_status_id
+      payment_status g ON a.payment_status = g.payment_status_id
   INNER JOIN 
       tokens d ON b.token_id = d.token_id
     INNER JOIN 
-      token_value f ON b.token_id = f.token_id
+      token_value f ON a.token_value_id = f.token_value_id
 
   WHERE 
       a.user_id = ${userID}
