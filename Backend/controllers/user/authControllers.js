@@ -8,30 +8,32 @@ const mysql = require('mysql');
 const { ethers } = require("ethers");
 const {db} = require('../../config/db')
 
+const kyc_verify = require('../kyc_verify');
 
-const registerUser = (req, res) => {
-    //CHECK USER IF EXISTS
-    console.log(req.body)
+const registerUser = async (req, res) => {
+  // CHECK IF USER EXISTS
+  console.log(req.body);
+
+  const checkUserQuery = "SELECT * FROM user WHERE email = ?";
   
-    const q = "SELECT * FROM user WHERE email = ?";
-  
-    db.query(q, [req.body.email], async (err, data) => {
-      if (err) return res.status(500).json(err);
-      if (data.length) return res.status(409).json({error: "User already exists!"});
-      //CREATE A NEW USER
-      //Hash the password
-      const salt = await  bcrypt2.genSalt(10);
-      const hashedPassword = await  bcrypt2.hash(req.body.password, salt);
+  db.query(checkUserQuery, [req.body.email], async (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.length) return res.status(409).json({ error: "User already exists!" });
+
+    // HASH THE PASSWORD
+    try {
+      const salt = await bcrypt2.genSalt(10);
+      const hashedPassword = await bcrypt2.hash(req.body.password, salt);
 
       if (!hashedPassword) {
-        // Handle the case where the password is missing or empty
         return res.status(400).json({ error: "Password is required." });
       }
+
+      // CREATE A NEW USER
+      const insertUserQuery =
+        "INSERT INTO user (email, fname, lname, user_password, contact, CNIC) VALUES (?, ?, ?, ?, ?, ?)";
   
-      const q =
-        "INSERT INTO user (email, fname, lname, user_password, contact, CNIC) VALUE (?)";
-  
-      const values = [
+      const userValues = [
         req.body.email,
         req.body.fname,
         req.body.lname,
@@ -40,64 +42,75 @@ const registerUser = (req, res) => {
         req.body.CNIC,
       ];
   
-      db.query(q, [values], (err, data) => {
+      db.query(insertUserQuery, userValues, async (err, userData) => {
         if (err) return res.status(500).json(err);
-        // console.log(data)
-
-        if (!data.insertId) {
+        
+        if (!userData.insertId) {
           return res.status(500).json({ error: "User registration failed." });
         }
         
         const mnemonic = process.env.MNEMON;
         const masterNode = ethers.utils.HDNode.fromMnemonic(mnemonic);
-        const derivedNode = masterNode.derivePath(`m/44'/60'/0'/0/${data.insertId}`);
+        const derivedNode = masterNode.derivePath(`m/44'/60'/0'/0/${userData.insertId}`);
         const wallet = new ethers.Wallet(derivedNode.privateKey);
         const address = wallet.address;
 
-        const wallet_query = "UPDATE user SET wallet_address = ? WHERE email = ?;";
+        try {
+          // KYC VERIFICATION
+          const verifiedKyc = await kyc_verify(address);
 
-        db.query(wallet_query,[address, req.body.email], async (err, data) => {
-          if (err) return res.status(500).json(err);
-
-          //Proceed to send welcome email to the new user
-
-          const config = {
-            service: "gmail",
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-              user: "asaanreiturns@gmail.com",
-              pass: process.env.EMAIL_PASS
-            }
+          if (!verifiedKyc) {
+            return res.status(403).json({ error: "KYC verification failed." });
           }
 
-          const sendMail = (messageData) => {
-            const transporter = nodemailer.createTransport(config);
+          // UPDATE WALLET ADDRESS AND SEND WELCOME EMAIL
+          const updateWalletQuery = "UPDATE user SET wallet_address = ? WHERE email = ?";
+
+          db.query(updateWalletQuery, [address, req.body.email], async (err, walletData) => {
+            if (err) return res.status(500).json(err);
+
+            // SEND WELCOME EMAIL
+            const messageData = {
+              from: "asaanreiturns@gmail.com",
+              to: req.body.email,
+              subject: "Welcome to AsaanREITurns.",
+              text: `Hi ${req.body.fname} ${req.body.lname}, \n \nWelcome to AsaanREITurns. We are delighted to have you on board! \n \nRegards, \nAsaanREITurns Team`
+            };
+
+            const transporter = nodemailer.createTransport({
+              service: "gmail",
+              host: "smtp.gmail.com",
+              port: 587,
+              secure: false,
+              auth: {
+                user: "asaanreiturns@gmail.com",
+                pass: process.env.EMAIL_PASS,
+              },
+            });
+
             transporter.sendMail(messageData, (err, info) => {
-              if (err){
-                console.log(err)
-              }else{
-                return info.response;
+              if (err) {
+                console.log(err);
+                return res.status(500).json({ error: "Error sending welcome email." });
+              } else {
+                console.log("Welcome email sent:", info.response);
+                return res.status(200).json("User has been created.");
               }
-            })
-          }
-
-          messageData = {
-            "from": "asaanreiturns@gmail.com",
-            "to": req.body.email,
-            "subject": "Welcome to AsaanREITurns.",
-            "text": `Hi ${req.body.fname} ${req.body.lname}, \n \nWelcome to AsaanREITurns. We are delighted to have you on board ! \n \nRegards, \nAsaanREITurns Team`
-          }
-
-          const sent = sendMail(messageData)
-
-          return res.status(200).json("User has been created.");
-        })
-      
+            });
+          });
+        } catch (error) {
+          console.log(error);
+          return res.status(500).json({ error: "Error verifying KYC." });
+        }
       });
-    });
-  };
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ error: "Error hashing password." });
+    }
+  });
+};
+
+
 
   //GET
   const login = (req, res) => {
