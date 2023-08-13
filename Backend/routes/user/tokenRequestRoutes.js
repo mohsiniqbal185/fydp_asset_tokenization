@@ -5,5 +5,5 @@ const {buyTokenRequest, getPendingRequestsOfUser,DeletePendingRequestsOfUser, ge
 router.post("/buy", buyTokenRequest)
 router.get("/pending/:user_id", getPendingRequestsOfUser)
 router.get("/pending/delete_buy_request/:request_id", DeletePendingRequestsOfUser)
-router.get('/pending/get_data_for_create_payment/:request_id', getDataForCreatePayment )
+// router.get('/pending/get_data_for_create_payment/:req_id', getDataForCreatePayment )
 module.exports = router;

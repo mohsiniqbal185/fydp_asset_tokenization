@@ -67,8 +67,6 @@ const getPendingRequestsOfUser = (req, res) => {
     
   `;
   
-  
-
   db.query(q, [user_id], (err, data) => {
     if (err) return res.status(500).json(err);
     // if (data.length === 0) return res.status(404).json(data);       // data.length will tell that there are no pending requests of user
@@ -76,17 +74,8 @@ const getPendingRequestsOfUser = (req, res) => {
   });
 
 }
-const getDataForCreatePayment = (req, res) => {
-  const request_id = req.params.request_id
-  q=`SELECT a.req_id as Request_ID,b.name as property_name,a.no_of_tokens,a.no_of_tokens*c.token_value AS Payment_Amount FROM token_buy_request a INNER JOIN property b ON a.property_id = b.property_id INNER JOIN token_value c ON a.token_value_id=c.token_value_id where a.req_id=${request_id}`
 
-  db.query(q,  (err, data) => {
-    if (err) return res.status(500).json(err);
-    // if (data.length === 0) return res.status(404).json(data);       // data.length will tell that there are no pending requests of user
-    res.status(200).json(data)
-  });
 
-}
 const DeletePendingRequestsOfUser = (req, res) => {
 
   const request_id = req.params.request_id
@@ -97,7 +86,6 @@ const DeletePendingRequestsOfUser = (req, res) => {
   `;
   
   
-
   db.query(q, (err, data) => {
     if (err) return res.status(500).json(err);
     // if (data.length === 0) return res.status(404).json(data);       // data.length will tell that there are no pending requests of user
@@ -107,4 +95,4 @@ const DeletePendingRequestsOfUser = (req, res) => {
 }
 
 
-module.exports = {buyTokenRequest, getPendingRequestsOfUser, DeletePendingRequestsOfUser, getDataForCreatePayment}
+module.exports = {buyTokenRequest, getPendingRequestsOfUser, DeletePendingRequestsOfUser}
