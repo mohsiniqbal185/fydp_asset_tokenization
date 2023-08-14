@@ -17,6 +17,7 @@ const getActiveInvestments = (req, res) => {
     const user_id = req.params.user_id
     const q = `
     SELECT 
+    p.property_id,
     p.name as property_name,
     SUM(tt.no_of_tokens) as no_of_tokens,
     p.location as property_location,
