@@ -40,6 +40,8 @@ app.use('/api/user/token-request', require('./routes/user/tokenRequestRoutes'));
 app.use('/api/user/active-investments', require('./routes/user/portfolioRoutes'));
 app.use('/api/user/upload/payment', require('./routes/user/uploadPaymentReceiptRoutes'))
 app.use('/api/user/sale', require('./routes/user/tokenMarketSaleRoute'))
+app.use('/api/user/payments', require('./routes/user/viewpaymentbyuserRoutes'));
+
 app.get('/api/user/delete-session', (req, res) => {
   // Delete the session of this requesting user
   delete req.session.user;
