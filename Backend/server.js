@@ -64,6 +64,24 @@ app.post("/api/user/upload-payment-receipt", upload.single("image"), (req,res)=>
       console.log(err)
   }
 })
+//Upload property images from user portal
+const storage2 = multer.diskStorage({
+  destination: (req,file,cb)=> {
+      cb(null, "public/images/property")
+  },
+  filename: (req,file,cb)=> {
+      cb(null, req.body.name)
+      
+  },
+})
+const uploadPropertyImage= multer({storage2})
+app.post("/api/admin/upload-property-images",uploadPropertyImage.array('images'), (req,res)=> {
+  try{
+      return res.status(200).json("files upload success")
+  }catch(err){
+      console.log(err)
+  }
+})
 
 
 
@@ -74,7 +92,6 @@ app.use('/api/admin/view_token_transactions',require('./routes/admin/viewTokenTr
 app.use('/api/admin/view_token_payments',require('./routes/admin/viewpaymentsbyAdminRoutes'));
 app.use('/api/admin/manage_token_transactions',require('./routes/admin/manageTokenTransactionsByAdminRoutes'));
 app.use('/api/admin/manage_properties',require('./routes/admin/adminEditandCreatePropertyRoutes'));
-
 
 
 app.get('/', (req, res) => {
