@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const dotenv = require("dotenv");
-const util = require('util');
+const util = require("util");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
@@ -17,4 +17,4 @@ const query = util.promisify(db.query).bind(db);
 //     console.log('db ' + connection.state);
 // });
 
-module.exports = { db ,query };
+module.exports = { db, query };
