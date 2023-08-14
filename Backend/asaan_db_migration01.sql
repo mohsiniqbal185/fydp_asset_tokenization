@@ -68,3 +68,8 @@ CREATE TABLE `asaan_reit_db_3`.`token_market_sale` (
 
 ALTER TABLE `asaan_reit_db_3`.`token_market_sale` 
 CHANGE COLUMN `date_time` `date_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ;
+
+ALTER TABLE `asaan_reit_db_3`.`payment` 
+DROP FOREIGN KEY `fk_transaction_id`;
+ALTER TABLE `asaan_reit_db_3`.`payment` 
+DROP INDEX `fk_transaction_id` ;

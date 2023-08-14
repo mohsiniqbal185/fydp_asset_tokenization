@@ -141,5 +141,84 @@ const DeletePendingMarketSaleRequestsOfUser = async (req, res) => {
 
 }
 
+const pledgePendingMarketSaleTokens = async (req, res) => {
 
-module.exports = { requestMarketSale, getMarketSaleRequestsOfUser, getAllPendingMarketSaleRequests, DeletePendingMarketSaleRequestsOfUser }
+  const request_id = req.params.request_id
+  const user_id = req.params.user_id
+
+  const q1 = `SELECT * FROM token_market_sale where idtoken_market_sale= ? and sold=0 and pledger_id is NULL`
+  const q2 = `
+   UPDATE  token_market_sale set pledger_id= ${user_id} 
+  `;
+
+  try {
+    // Execute the first query
+    const resultQ1 = await query(q1, [request_id]);
+    if (resultQ1.length == 0) {
+      return res.status(400).json({message:"already sold,pledged or deleted, cannot pledge"})
+
+    }
+    if (Number(resultQ1[0].seller_id) === Number(user_id)) {
+      return res.status(400).json({message:"cannot pledge own tokens"})
+    }
+    db.query(q2)
+    return res.status(200).json({message: "pledged successfully"})
+
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ message: "there was an error" })
+
+  }
+
+}
+
+
+
+const uploadPaymentReceiptForMarketSale = (req, res) => {
+  const req_id = req.body.req_id
+  const user_id = req.body.user_id
+  const file_name = req.body.file_name
+  const payment_method = req.body.payment_method
+  const payment_amount = req.body.payment_amount
+  const q = `INSERT INTO payment (payment_method, payment_from, req_id, payment_receipt_file_name, payment_amount) VALUES (?, ?, ?, ?, ?);`;
+  console.log(req_id, user_id, file_name, payment_amount, payment_method)
+  db.query(q,[payment_method, user_id, req_id, file_name, payment_amount], (err, data) => {
+    if (err) return res.status(500).json(err);
+    if (data.affectedRows === 0) return res.status(404).json("Could not process request!");
+    
+
+    const tokenBuyRequestUpdateStatusQuery = 'UPDATE token_market_sale SET payment_done = 1, payment_id = (SELECT payment_id from payment where req_id = ? LIMIT 1) WHERE idtoken_market_sale = ?'
+    db.query(tokenBuyRequestUpdateStatusQuery, [req_id, req_id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.affectedRows === 0) return res.status(404).json("Could not process request!");
+      res.status(200).json(data)
+    } )
+    
+  });
+}
+
+const getMarketSalePaymentDataForSingleReceipt = (req, res) => {
+const req_id = req.params.request_id
+q=`SELECT 
+p.payment_id,
+p.payment_method,
+u.email as payment_from,
+p.DateTime,
+tmr.payment_done,
+p.payment_amount,
+p.payment_receipt_file_name
+
+FROM payment p 
+  INNER JOIN token_market_sale tmr ON tmr.idtoken_market_sale = p.req_id
+  INNER JOIN user u ON p.payment_from = u.user_id
+
+WHERE p.req_id = ${req_id} limit 1;`
+
+db.query(q,  (err, data) => {
+  if (err) return res.status(500).json(err);
+   if (data.length === 0) return res.status(404).json(data);    
+  res.status(200).json(data[0])
+});
+}
+
+module.exports = { requestMarketSale, getMarketSaleRequestsOfUser, getAllPendingMarketSaleRequests, DeletePendingMarketSaleRequestsOfUser, pledgePendingMarketSaleTokens ,uploadPaymentReceiptForMarketSale, getMarketSalePaymentDataForSingleReceipt}
