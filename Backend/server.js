@@ -92,6 +92,7 @@ app.use('/api/admin/view_token_transactions',require('./routes/admin/viewTokenTr
 app.use('/api/admin/view_token_payments',require('./routes/admin/viewpaymentsbyAdminRoutes'));
 app.use('/api/admin/manage_token_transactions',require('./routes/admin/manageTokenTransactionsByAdminRoutes'));
 app.use('/api/admin/manage_properties',require('./routes/admin/adminEditandCreatePropertyRoutes'));
+app.use('/api/admin/update-token-price',require('./routes/admin/adminUpdateTokenValueRoutes'));
 
 
 app.get('/', (req, res) => {
