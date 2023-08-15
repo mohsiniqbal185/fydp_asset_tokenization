@@ -11,14 +11,14 @@ const managePendingSingleMarketSale = (req, res) =>{
     a.pledger_id AS Pledger_ID,
     CONCAT(f1.fname,' ',f1.lname) AS Pledger_Name,
         a.token_value_id,
-        a.req_id,
+        a.idtoken_market_sale,
         a.property_id,
         d.token_name,
-        DATE_FORMAT(a.date_of_request, '%Y-%m-%d %H:%i:%s') AS Date_of_Request,
+        DATE_FORMAT(a.date_time, '%Y-%m-%d %H:%i:%s') AS Date_of_Request,
         g.token_value AS TokenValue,
         a.no_of_tokens,
         a.no_of_tokens * g.token_value AS TransactionValue,
-        d.total_supply - b.tokens_sold AS RemainingTokens,
+        d.total_supply - p.tokens_sold AS RemainingTokens,
         c.payment_amount AS Payment_Amount,
         a.payment_done,
         c.payment_id,
@@ -38,14 +38,19 @@ const managePendingSingleMarketSale = (req, res) =>{
     INNER JOIN 
         payment c ON a.idtoken_market_sale = c.req_id
     INNER JOIN 
-        payment_status h ON a.payment_status = h.payment_status_id
+        property p ON a.property_id = p.property_id 
+    INNER JOIN 
+        tokens d ON p.token_id = d.token_id    
+    INNER JOIN 
+        payment_status h ON a.payment_done = h.payment_status_id
     INNER JOIN 
         token_value g ON a.token_value_id = g.token_value_id
-  
+    INNER JOIN 
+        smart_contracts k ON a.property_id = k.property_id
     WHERE 
         a.idtoken_market_sale = ${reqID}
     AND 
-        a.status = 0;
+        a.sold = 0;
     `;
     db.query(getPendingTransactionsDataSingleQuery, (err, data) => {
         if (err) return res.status(500).json(err);
