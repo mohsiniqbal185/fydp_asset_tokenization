@@ -40,7 +40,7 @@ const Contact = () => {
           <p>
           You're welcome to visit our office and meet with our team members.
           </p>
-          <h3>F-5, Club Street, Karachi</h3>
+          <h3>NEDUET, Karachi</h3>
         </div>
         <div>
           <h1>
@@ -50,7 +50,7 @@ const Contact = () => {
           <p>
             We are available 24/7. Reach out to us for support and guidelines!
           </p>
-          <h3>+9309032932</h3>
+          <h3>+923312554581</h3>
         </div>
         <div>
           <h1>
@@ -60,7 +60,7 @@ const Contact = () => {
           <p>
           We're just an email away. Connect with our team for assistance.
           </p>
-          <h3>mail@asaanreiturns.pk</h3>
+          <h3>asaanreiturns@gmail.com</h3>
         </div>
       </div>
     </motion.div>
