@@ -7,16 +7,13 @@ const getActiveInvestments = (req, res) => {
     SELECT 
     p.property_id,
     p.name as property_name,
-    SUM(tt.no_of_tokens) as no_of_tokens,
+    th.no_of_tokens,
     p.location as property_location,
     p.property_code
 
-    FROM token_transactions tt
-    INNER JOIN property p ON p.property_id = tt.property_id
-    WHERE tt.receiver_id = ?
-
-    GROUP BY p.name
-    ORDER BY no_of_tokens DESC;
+    FROM token_holders th
+    INNER JOIN property p ON p.property_id = th.property_id
+    WHERE th.user_id = ?;
     `;
   
     db.query(q, [user_id], (err, data) => {

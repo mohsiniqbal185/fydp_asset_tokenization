@@ -14,7 +14,7 @@ router.get('/transfer_tokens',TransferTokens)
 router.get('/:property_id', managePendingTransactions)
 router.get('/manage/:req_id', managePendingSingleTransaction)
 router.get('/manage/verify/:req_id', verifySinglePayment)
-router.get('/manage_sale/verify/:req_id', verifySingleMarketSale)
+router.post('/manage_sale/verify/:req_id', verifySingleMarketSale)
 router.get('/manage_sale/:req_id', managePendingSingleMarketSale)
 
 

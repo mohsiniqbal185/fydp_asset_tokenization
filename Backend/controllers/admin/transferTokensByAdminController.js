@@ -40,6 +40,9 @@ async function TransferTokens(req,res) {
         getaddTokenTransactionQuery='INSERT INTO token_transactions(property_id,sender_id,receiver_id,no_of_tokens,transaction_hash,payment_id,token_value_id) VALUES (?,?,?,?,?,?,?)';
         getupdateTokenbuyStatusQuery = 'UPDATE token_buy_request SET status=1 where req_id=?;';
         getupdateTokensSoldQuery = 'UPDATE property SET  tokens_sold=? where property_id=?;';
+        checkfortokenholder = 'SELECT no_of_tokens from token_holders where user_id = ? and property_id=?;';
+        addnewtokenholder = 'INSERT into token_holders(user_id,property_id,no_of_tokens) VALUES (?,?,?);';
+        updatetokenholder = 'update token_holders set no_of_tokens=?;';
         // data = await db.query(getaddTokenTransactionQuery, [property_id, 3,pledger_id, no_of_tokens, transaction_hash, payment_id]);
         // console.log(data);
         // await db.query(getupdateTokenbuyStatusQuery, [req_id]);
@@ -66,6 +69,37 @@ async function TransferTokens(req,res) {
                   resolve(updateTokensSoldQuery);
               });
           }),
+          new Promise((resolve, reject) => {
+            // Execute the checkfortokenholder query
+            db.query(checkfortokenholder, [pledger_id, property_id], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    // Check if any rows were returned
+                    if (result.length > 0) {
+                        // If no_of_tokens exists, execute the updatetokenholder query
+                        const existingNoOfTokens = result[0].no_of_tokens;
+                    const updatedNoOfTokens = existingNoOfTokens + no_of_tokens;
+                        db.query(updatetokenholder, [updatedNoOfTokens], (err, updateResult) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(updateResult);
+                            }
+                        });
+                    } else {
+                        // If no_of_tokens doesn't exist, execute the addnewtokenholder query
+                        db.query(addnewtokenholder, [pledger_id, property_id, no_of_tokens], (err, addResult) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(addResult);
+                            }
+                        });
+                    }
+                }
+            });
+        })
      
         ];
         Promise.all(promises)
