@@ -32,9 +32,9 @@ const Footer = () => {
         <div className="foot-div-item3">
           <h2>Contact</h2>
           <div className="content">
-            <p>Location: F-5, Club Street, Karachi</p>
-            <p>Email: mail@asaanreiturns.pk</p>
-            <p>Phone: +9309032932</p>
+            <p>Location: NEDUET, Karachi</p>
+            <p>Email: asaanreiturns@gmail.com</p>
+            <p>Phone: +923312554581</p>
           </div>
         </div>
       </div>

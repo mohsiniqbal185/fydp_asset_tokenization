@@ -25,7 +25,8 @@ const HomeContent = () => {
           <span style={{display:'flex',alignItems:'center'}}>How does it work&nbsp;<BsPatchQuestionFill/></span>
         </h1>
         <div className="process-cards">
-          <div className="process-card" onClick={()=>navigate("/sign-up")}>
+          <div className="process-card" onClick={()=>window.open('http://localhost:3000/login','_blank')}>
+          {/* <div className="process-card" onClick={()=>navigate("/sign-up")}> */}
             <img src="assets/first-card.jpg" alt="image" />
             <div>
               <h3>1. Register on the platform</h3>
@@ -44,10 +45,10 @@ const HomeContent = () => {
           <div className="process-card" onClick={()=>navigate("/learn")}>
             <img src="assets/third-card.jpg" alt="image" />
             <div>
-              <h3>3. Receive rent</h3>
+              <h3>3. Learn</h3>
               <p>
-                View information related to your property on your dashboard and
-                make profit through rent
+                Learn more about how this platform operates and what is happening
+                under the hood
               </p>
             </div>
           </div>

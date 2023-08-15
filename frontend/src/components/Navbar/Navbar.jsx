@@ -113,12 +113,12 @@ const Navbar = ({ navbarScroll }) => {
             </Link>
           </li>
           <li>
-            <Link to="/sign-in">
-              <button>
+            {/* <Link to="/sign-in"> */}
+              <button onClick={()=>window.open('http://localhost:3000/login','_blank')}>
                 <RiUserSharedLine />
                 &nbsp;<span>Sign In</span>
               </button>
-            </Link>
+            {/* </Link> */}
           </li>
         </ul>
       </div>

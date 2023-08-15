@@ -31,8 +31,9 @@ const SingleProperty = () => {
     const fetchProperty = async () => {
       try {
         const res = await axios.get(`/api/user/properties/${property_id}`)
-        setProperty(res.data[0])
         console.log(res.data[0])
+        setProperty(res.data[0])
+        // console.log(res.data[0])
       } catch (error) {
         console.log(error)
       }
@@ -58,27 +59,27 @@ const SingleProperty = () => {
         <img src={property?.image ? property.image : ""} alt="property image" />
         <div className="tagname">
           <div>
-            <h2><BiBuildingHouse/>&nbsp;{property?.name}</h2>
+            <h2><BiBuildingHouse/>&nbsp;{property?.property_name}</h2>
           </div>
         </div>
       </div>
       <div className="single-property-content">
       <div className="property-info">
-              <div className="info">
+              {/* <div className="info">
                 <h5><RxDimensions/>&nbsp;Area</h5>
                 <h6>{property?.size_of_property} yards</h6>
-              </div>
+              </div> */}
               <div className="info">
                 <h5><GiPriceTag/>&nbsp;Token Price</h5>
-                <h6>Rs. {property?.value_in_pkr/property?.no_of_tokens}</h6>
+                <h6>Rs. {property?.token_price}</h6>
               </div>
               <div className="info">
                 <h5><GiToken/>&nbsp;Total Tokens</h5>
-                <h6>{property?.no_of_tokens}</h6>
+                <h6>{property?.total_supply}</h6>
               </div>
               <div className="info">
                 <h5><BsFillCheckCircleFill/>&nbsp;Tokens Available</h5>
-                <h6>{property?.no_of_tokens - property?.tokens_sold}</h6>
+                <h6>{property?.tokens_left}</h6>
               </div>
           </div>
       <div className="property-desc">
