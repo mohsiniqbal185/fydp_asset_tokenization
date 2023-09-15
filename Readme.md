@@ -3,5 +3,5 @@ transparency and security. A platform where users can buy share of a property in
 get benefits of an investor. 
 
 
-##Backend: Contains all the code for backend of user and admin portal. 
-##Frontend: Contains frontend for general public website.
+#Backend: Contains all the code for backend of user and admin portal. 
+#Frontend: Contains frontend for general public website.
